@@ -250,7 +250,7 @@ Tools/vampire: Tools/Vampires
 Tools/Vampires: Tools/vampire.zip
 	cd Tools ; unzip -D vampire.zip
 Tools/vampire.zip: Tools/.f
-	cd Tools ; curl -OL http://forsyte.at/wp-content/uploads/vampire.zip
+	cd Tools ; curl -OL https://github.com/vprover/vampire/releases/download/snakeForV4.7%2B/vampire-snake-static4starexec.zip
 
 # spot/ltl2tgba
 Tools/ltl2tgba: Tools/spot-$(spot_version)
