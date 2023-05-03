@@ -17,7 +17,7 @@ z3_version=4.8.10
 
 
 .PHONY: default debug release test tools required-tools optional-tools all clean distclean
-.INTERMEDIATE: Tools/ltl3ba-$(ltl3ba_version).tar.gz Tools/bloqqer-$(bloqqer_version).tar.gz Tools/bloqqer-031-7a176af-110509.tar.gz Tools/cadet-bin.tar.gz Tools/caqe-bin.tar.gz Tools/cryptominisat-$(cms_version).tar.gz Tools/cvc$(cvc_major_ver)-$(cvc_minor_ver).tar.gz Tools/depqbf-$(depqbf_version).tar.gz Tools/spot-$(spot_version).tar.gz Tools/z3-$(z3_version).tar.gz Tools/rareqs-$(rareqs_version).src.tgz Tools/picosat-$(pico_version).tar.gz Tools/idq-$(idq_version).tar.gz Tools/vampire.zip Tools/E.tgz  Tools/aiger-$(aiger_version).tar.gz
+.INTERMEDIATE: Tools/ltl3ba-$(ltl3ba_version).tar.gz Tools/bloqqer-$(bloqqer_version).tar.gz Tools/bloqqer-031-7a176af-110509.tar.gz Tools/cadet-bin.tar.gz Tools/caqe-bin.tar.gz Tools/cryptominisat-$(cms_version).tar.gz Tools/cvc$(cvc_major_ver)-$(cvc_minor_ver).tar.gz Tools/depqbf-$(depqbf_version).tar.gz Tools/spot-$(spot_version).tar.gz Tools/z3-$(z3_version).tar.gz Tools/rareqs-$(rareqs_version).src.tgz Tools/picosat-$(pico_version).tar.gz Tools/idq-$(idq_version).tar.gz Tools/E.tgz  Tools/aiger-$(aiger_version).tar.gz
 .SECONDARY: Tools/abc-hg/abc Tools/abc-hg Tools/bloqqer-031-7a176af-110509 Tools/bloqqer-031-7a176af-110509/bloqqer Tools/bloqqer-$(bloqqer_version) Tools/bloqqer-$(bloqqer_version)/bloqqer Tools/ltl3ba Tools/ltl3ba-$(ltl3ba_version) Tools/ltl3ba-$(ltl3ba_version)/ltl3ba Tools/cryptominisat-$(cms_version) Tools/cryptominisat-$(cms_version)/build Tools/depqbf-version-$(depqbf_version)/depqbf Tools/depqbf-version-$(depqbf_version) Tools/quabs-git Tools/spot-$(spot_version) Tools/cvc$(cvc_major_ver)-$(cvc_minor_ver) Tools/cvc$(cvc_major_ver)-$(cvc_minor_ver)/builds/bin/cvc4 Tools/z3-$(z3_version)/build/z3 Tools/z3-$(z3_version) Tools/rareqs-$(rareqs_version) Tools/syfco-git Tools/syfco-git/syfco Tools/picosat-$(pico_version) Tools/picosat Tools/idq-$(idq_version) Tools/idq-$(idq_version)/idq Tools/aiger-$(aiger_version) Tools/aiger-$(aiger_version)/aigbmc Tools/aiger-$(aiger_version)/smvtoaig Tools/aiger-ltl-model-checker Tools/aiger-ltl-model-checker/combine-aiger
 
 default: release
@@ -85,7 +85,6 @@ optional-tools: \
 	Tools/depqbf \
 	Tools/eprover \
 	Tools/picosat-solver \
-	Tools/vampire \
 	Tools/hqs \
 	Tools/NuSMV \
 	Tools/ltl2smv
@@ -243,14 +242,6 @@ Tools/E: Tools/E.tgz
 
 Tools/E.tgz: Tools/.f
 	cd Tools ; curl -OL http://wwwlehre.dhbw-stuttgart.de/~sschulz/WORK/E_DOWNLOAD/$(eprover_version)/E.tgz
-
-# vampire
-Tools/vampire: Tools/Vampires
-	cp Tools/Vampires/vampire_x86_64 Tools/vampire
-Tools/Vampires: Tools/vampire.zip
-	cd Tools ; unzip -D vampire.zip
-Tools/vampire.zip: Tools/.f
-	cd Tools ; curl -OL https://github.com/vprover/vampire/releases/download/snakeForV4.7%2B/vampire-snake-static4starexec.zip
 
 # spot/ltl2tgba
 Tools/ltl2tgba: Tools/spot-$(spot_version)
