@@ -1,0 +1,60 @@
+--- Tools/rareqs-1.1/Makefile.old	2023-05-13 12:15:28.009180265 +0000
++++ Tools/rareqs-1.1/Makefile	2023-05-13 12:19:57.276959830 +0000
+@@ -3,7 +3,7 @@
+ DEPFLAGS = -Y -f $(DEPFILE) -s $(DEPTOKEN) 
+ CSRCS    = $(wildcard *.cc) 
+ COBJS    = $(CSRCS:.cc=.o)
+-LIBD = -L./minisat/core
++LIBD = -L./minisat/build/release/lib
+ LIBS =
+ CXX?=g++
+ 
+@@ -20,13 +20,14 @@
+ else
+ CFLAGS+=-DNDEBUG
+ CFLAGS+=-O3
+-MSAT=libr
++MSAT=lr
+ endif
+ 
+ CFLAGS += -Wall
+ CFLAGS+=-D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS -Wno-parentheses -Wno-deprecated -D _MSC_VER
+ CFLAGS+=-D _MSC_VER # this is just for compilation of Options in minisat, which are not used anyhow
+ CFLAGS+=-I./minisat/
++CFLAGS+=-I./minisat/minisat
+ CFLAGS+=-std=c++0x
+ LIBS+=-lz -lminisat
+ 
+@@ -39,7 +40,7 @@
+ CFLAGS+=-DEXPERT
+ endif
+ 
+-.PHONY: m
++.PHONY: m get-minisat
+ 
+ all:  rareqs 
+ 
+@@ -47,14 +48,21 @@
+ 	@echo Linking: $@
+ 	$(CXX) -o $@ $(COBJS) $(LNFLAGS) $(LIBD) $(LIBS)
+ 
+-m:
+-	export MROOT=`pwd`/minisat ; cd ./minisat/core; make CXX=$(CXX) LIB=minisat $(MSAT)
++m: get-minisat
++	export MROOT=`pwd`/minisat ; cd ./minisat; make CXX=$(CXX) LIB=minisat $(MSAT)
+ 
+ depend:
+ 	rm -f $(DEPFILE)
+ 	@echo $(DEPTOKEN) > $(DEPFILE)
+ 	makedepend $(DEPFLAGS) -- $(CFLAGS) -- $(CSRCS)
+ 
++
++get-minisat:
++	$(RM) -rf minisat
++	git clone https://github.com/lou1306/plancksat.git minisat
++	cd minisat ; git switch vanilla
++
++
+ ## Build rule
+ %.o:	%.cc
+ 	@echo Compiling: $@
